@@ -13,7 +13,8 @@ dd bs=32 if=boot of=hd.img skip=1 conv=notrunc
 3. 所以最后在生成硬盘映像文件的时候，要跳过前面的32B，只拷贝后面的512B部分
 
 跑起来的截图如下：
-![1693632685405](https://github.com/junhzhan/linux-0.12/assets/5052478/9d30434c-1879-4008-a7e8-bfbc9beaf7d7)
+
+![1693632685405](../image/1693632893853.png)
 
 #### 方案二
 
