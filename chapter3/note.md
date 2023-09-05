@@ -26,3 +26,19 @@ dd bs=512 if=boot.o of=hd.img seek=0 count=1 conv=notrunc
 跑起来的截图如下：
 
 ![1693632685405](../image/1693632893853.png)
+
+### 内联汇编
+书里用的内联汇编的示例代码
+```c
+#define get_seg_byte(seg, addr)
+({
+register char __res;
+__asm__("push %%fs;
+        "mov %%ax, %%fs;"
+        "movb %%fs:%2, %%al;"
+        "pop %%fs"
+        :"=a"(__res)
+        :"0"(seg), "m"(*(addr)));
+__res;})
+```
+* ```m```表示取变量的内存地址，在这个例子里，等效于&(*addr)
