@@ -1,4 +1,4 @@
-SYSWRITE = 4
+SYSWRITE  = 4
 .global mywrite, myadd
 .text
 mywrite:
@@ -17,7 +17,7 @@ mywrite:
 myadd:
     pushl %ebp
     movl %esp, %ebp
-    movl 8(%esp), %ebx
+    movl 8(%esp), %eax
     movl 12(%ebp), %edx
     xorl %ecx, %ecx
     addl %eax, %edx
