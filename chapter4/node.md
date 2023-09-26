@@ -14,5 +14,9 @@
  
 ### 代码运行
 参见[Makefile](code/linux-0.00-rh9/Makefile)
+```bash
+make disk
+make bochs
+```
 
 bochs要用软盘启动，不能用硬盘，因为程序里是从软盘里读取扇区数据。
