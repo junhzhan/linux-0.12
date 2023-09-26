@@ -11,6 +11,7 @@ entry start
 start:
 	jmpi	go,#BOOTSEG
 go:	mov	ax,cs
+	xchg bx, bx
 	mov	ds,ax
 	mov	ss,ax
 	mov	sp,#0x400		! arbitrary value >>512
