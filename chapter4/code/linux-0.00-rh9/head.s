@@ -64,10 +64,10 @@ startup_32:
 	movl $LDT0_SEL, %eax
 	lldt %ax 
 	movl $0, current
-	sti
 	pushl $0x17
 	pushl $init_stack
 	pushfl
+	xchg %bx, %bx
 	pushl $0x0f
 	pushl $task0
 	iret
@@ -131,6 +131,8 @@ ignore_int:
 /* Timer interrupt handler */ 
 .align 2
 timer_interrupt:
+    xchg %bx, %bx
+    xchg %ax, %ax
 	push %ds
 	pushl %eax
 	movl $0x10, %eax
@@ -224,7 +226,7 @@ ldt1:	.quad 0x0000000000000000
 tss1:	.long 0 			/* back link */
 	.long krn_stk1, 0x10		/* esp0, ss0 */
 	.long 0, 0, 0, 0, 0		/* esp1, ss1, esp2, ss2, cr3 */
-	.long task1, 0x200		/* eip, eflags */
+	.long task1, 0x000		/* eip, eflags */
 	.long 0, 0, 0, 0		/* eax, ecx, edx, ebx */
 	.long usr_stk1, 0, 0, 0		/* esp, ebp, esi, edi */
 	.long 0x17,0x0f,0x17,0x17,0x17,0x17 /* es, cs, ss, ds, fs, gs */
@@ -241,7 +243,8 @@ task0:
 	int $0x80
 	movl $0xfff, %ecx
 1:	loop 1b
-	jmp task0 
+	ljmp  $TSS1_SEL, $0
+	jmp task0
 
 task1:
 	movl $0x17, %eax
@@ -250,6 +253,7 @@ task1:
 	int $0x80
 	movl $0xfff, %ecx
 1:	loop 1b
+	ljmp  $TSS0_SEL, $0
 	jmp task1
 
 	.fill 128,4,0 
